@@ -5,8 +5,12 @@ name: scrapeIncidenciaHourly
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
   schedule:
-    - cron: '0 * * * *'
+  - cron: '0 * * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -32,13 +36,7 @@ jobs:
     - name: Scrape
       run: R -e 'source("script.R", echo = TRUE)'
 
-    # Add new files in data folder, commit along with other modified files, push
-    - name: Commit files
+    - name: Commit Changes
       run: |
-        git config --local user.name actions-user
-        git config --local user.email "actions@github.com"
-        git commit -am "GH ACTION Headlines $(date)"
-        git push origin master
-      env:
-        REPO_KEY: ${{secrets.GITHUB_TOKEN}}
-        username: github-actions
+        git commit data.json -m 'Re-build data.json' || echo "No changes to commit"
+        git push https://${{github.actor}}:${{secrets.GH_TOKEN}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
