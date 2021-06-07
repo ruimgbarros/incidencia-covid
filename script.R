@@ -40,7 +40,10 @@ data_atual_concelhos <- incidencia_concelhos %>%
 
 incidencia_concelhos <- incidencia_concelhos %>%
   filter(data == data_atual_concelhos) %>%
-  select(dicofre, distrito, concelho, incidencia)
+  select(distrito, concelho, incidencia) %>%
+  rename('value' = 'incidencia',
+         'label' = 'concelho',
+         'group' = 'distrito')
 
 
 
