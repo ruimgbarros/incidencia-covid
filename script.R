@@ -39,11 +39,29 @@ data_atual_concelhos <- incidencia_concelhos %>%
   pull()
 
 incidencia_concelhos <- incidencia_concelhos %>%
-  filter(data == data_atual_concelhos) %>%
-  select(distrito, concelho, incidencia) %>%
+  filter(data == data_atual_concelhos)
+
+
+metadata <- read_delim('concelhos-metadata.csv', delim = ';') %>%
+  select(dicofre, pre, pre2, pre3, designacao)
+
+distritos_ok <- read_csv('distritos.csv')
+
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1,1)), substring(s, 2),
+        sep="", collapse=" ")
+}
+
+incidencia_concelhos <- incidencia_concelhos %>%
+  left_join(metadata) %>%
+  select(designacao, distrito, incidencia, pre, pre2, pre3) %>%
   rename('value' = 'incidencia',
-         'label' = 'concelho',
+         'label' = 'designacao',
          'group' = 'distrito') %>%
+  left_join(distritos_ok) %>%
+  select(-group) %>%
+  rename('group' = 'distrito') %>%
   arrange(group)
 
 
