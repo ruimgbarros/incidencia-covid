@@ -43,7 +43,8 @@ incidencia_concelhos <- incidencia_concelhos %>%
   select(distrito, concelho, incidencia) %>%
   rename('value' = 'incidencia',
          'label' = 'concelho',
-         'group' = 'distrito')
+         'group' = 'distrito') %>%
+  arrange(group)
 
 
 
