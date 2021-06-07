@@ -46,17 +46,16 @@ incidencia_concelhos <- incidencia_concelhos %>%
 
 # Export Everything to JSON
 
-data <- list(
-  dados_nacionais = list(
-    updated = data_atual,
-    incidencia_nacional = incidencia_nacional
-  ),
+data <-
   list(
+    dados_nacionais = list(
+      updated = data_atual,
+      incidencia_nacional = incidencia_nacional
+  ),
     dados_concelho = list(
       updated = data_atual_concelhos,
       incidencia_concelhos = incidencia_concelhos
     )
-  )
 )
 
 data <- data %>% toJSON(pretty = FALSE, auto_unbox = TRUE, na = "null")
