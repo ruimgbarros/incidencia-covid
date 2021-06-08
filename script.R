@@ -56,9 +56,9 @@ simpleCap <- function(x) {
 incidencia_concelhos <- incidencia_concelhos %>%
   left_join(metadata) %>%
   select(designacao, distrito, incidencia, pre, pre2, pre3) %>%
-  rename('value' = 'incidencia',
-         'label' = 'designacao',
+  rename('label' = 'designacao',
          'group' = 'distrito') %>%
+  mutate(value = label) %>%
   left_join(distritos_ok) %>%
   select(-group) %>%
   rename('group' = 'distrito') %>%
