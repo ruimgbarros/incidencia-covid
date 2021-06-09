@@ -1,6 +1,7 @@
 library(tidyverse)
 library(lubridate)
 library(jsonlite)
+library(glue)
 
 
 # Calculate Incidência nacional com base nos dados mais recentes
@@ -64,6 +65,7 @@ incidencia_concelhos <- incidencia_concelhos %>%
   rename('group' = 'distrito') %>%
   arrange(group)
 
+data_atual <- glue('Actualizado a {day(data_atual)} de {month(data_atual, label = TRUE, abbr = FALSE, locale="pt_PT")} de {year(data_atual)}')
 
 
 # Export Everything to JSON
